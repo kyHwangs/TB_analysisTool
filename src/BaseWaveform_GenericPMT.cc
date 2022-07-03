@@ -145,23 +145,31 @@ int BaseWaveform_GenericPMT(std::string fileNum)
       }
 
       if ( j == 0 ) {
+        c->cd(); pad_LT->cd(); TLegend* leg1 = new TLegend(0.55,0.15,0.85,0.30); leg1->SetFillStyle(0); leg1->SetBorderSize(0); leg1->SetTextFont( 42 ); leg1->SetTextSize( 0.045 );
         for (int i = 0; i < chInput.at(j).size(); i++) {
           if ( i == 0 ) {
-            c->cd(); pad_LT->cd(); plotCol.at(j).at(i     )->Draw("Hist");
+            c->cd(); pad_LT->cd(); plotCol.at(j).at(i     )->Draw("Hist"); leg1->AddEntry(plotCol.at(j).at(i), plotName.at(j).at(i), "l");
           } else {
-            c->cd(); pad_LT->cd(); plotCol.at(j).at(i     )->Draw("Hist&sames");
+            c->cd(); pad_LT->cd(); plotCol.at(j).at(i     )->Draw("Hist&sames"); leg1->AddEntry(plotCol.at(j).at(i), plotName.at(j).at(i), "l");
+          }
+          if ( i == chInput.at(j).size() - 1 ) {
+            c->cd(); pad_LT->cd(); leg1->Draw();
           }
         }
         c->SaveAs((TString)(BASE_DIR+SCENARIO+"/"+fileNum+"/Waveform/"+std::to_string(j+1)+"/"+FILE_NAME+"_mid"+std::to_string(j+1)+"_"+std::to_string(evt)+"evt_waveform.png"));
       }
 
       if ( j == 1 ) {
+        c1->cd(); pad_RT->cd(); TLegend* leg1 = new TLegend(0.55,0.15,0.85,0.30); leg1->SetFillStyle(0); leg1->SetBorderSize(0); leg1->SetTextFont( 42 ); leg1->SetTextSize( 0.045 );
         for (int i = 0; i < chInput.at(j).size(); i++) {
           c1->cd();
           if ( i == 0 ) {
-            c1->cd(); pad_RT->cd(); plotCol.at(j).at(i)->Draw("Hist");
+            c1->cd(); pad_RT->cd(); plotCol.at(j).at(i)->Draw("Hist"); leg1->AddEntry(plotCol.at(j).at(i), plotName.at(j).at(i), "l");
           } else {
-            c1->cd(); pad_RT->cd(); plotCol.at(j).at(i)->Draw("Hist&sames");
+            c1->cd(); pad_RT->cd(); plotCol.at(j).at(i)->Draw("Hist&sames"); leg1->AddEntry(plotCol.at(j).at(i), plotName.at(j).at(i), "l");
+          }
+          if ( i == chInput.at(j).size() - 1 ) {
+            c1->cd(); pad_RT->cd(); leg1->Draw();
           }
         }
         c1->SaveAs((TString)(BASE_DIR+SCENARIO+"/"+fileNum+"/Waveform/"+std::to_string(j+1)+"/"+FILE_NAME+"_mid"+std::to_string(j+1)+"_"+std::to_string(evt)+"evt_waveform.png"));

@@ -28,6 +28,10 @@ void BaseIntegral_GenericPMT(std::string fileNum, std::string pedNum, enum runMo
     TPad* pad_LT = new TPad("pad_LT","pad_LT", 0.01, 0.01, 0.99, 0.99 );
     pad_set(pad_LT);
 
+    c1->cd();
+    TPad* pad_RT = new TPad("pad_RT","pad_RT", 0.01, 0.01, 0.99, 0.99 );
+    pad_set(pad_RT);
+
     FILE *fp;
     int file_size;
     int nevt;
@@ -148,11 +152,15 @@ void BaseIntegral_GenericPMT(std::string fileNum, std::string pedNum, enum runMo
         fclose(fp);
 
         if ( j == 0 ) {
+            c->cd(); pad_LT->cd(); TLegend* leg1 = new TLegend(0.55,0.70,0.85,0.85); leg1->SetFillStyle(0); leg1->SetBorderSize(0); leg1->SetTextFont( 42 ); leg1->SetTextSize( 0.045 );
             for (int i = 0; i < chInput.at(j).size(); i++) {
                 if ( i == 0 ) {
-                    c->cd(); pad_LT->cd(); plotCol.at(j).at(i     )->Draw("Hist");
+                    c->cd(); pad_LT->cd(); plotCol.at(j).at(i)->Draw("Hist"); leg1->AddEntry(plotCol.at(j).at(i), plotName.at(j).at(i), "l");
                 } else {
-                    c->cd(); pad_LT->cd(); plotCol.at(j).at(i     )->Draw("Hist&sames");
+                    c->cd(); pad_LT->cd(); plotCol.at(j).at(i)->Draw("Hist&sames"); leg1->AddEntry(plotCol.at(j).at(i), plotName.at(j).at(i), "l");
+                }
+                if ( i == chInput.at(j).size() - 1 ) {
+                    c->cd(); pad_LT->cd(); leg1->Draw();
                 }
             }
 
@@ -165,15 +173,19 @@ void BaseIntegral_GenericPMT(std::string fileNum, std::string pedNum, enum runMo
             if ( mode == runMode::kCoarse ) {
                 c->SaveAs((TString)(BASE_DIR+SCENARIO+"/"+fileNum+"/Integral/CoarsePed_"+FILE_NAME+"_mid"+std::to_string(j+1)+"_IntegratedADC.png"));
             }
+
         }
 
         if ( j == 1 ) {
+            c1->cd(); pad_RT->cd(); TLegend* leg1 = new TLegend(0.55,0.70,0.85,0.85); leg1->SetFillStyle(0); leg1->SetBorderSize(0); leg1->SetTextFont( 42 ); leg1->SetTextSize( 0.045 );
             for (int i = 0; i < chInput.at(j).size(); i++) {
-                c1->cd();
                 if ( i == 0 ) {
-                    plotCol.at(j).at(i)->Draw("Hist");
+                    c1->cd(); pad_RT->cd(); plotCol.at(j).at(i)->Draw("Hist"); leg1->AddEntry(plotCol.at(j).at(i), plotName.at(j).at(i), "l");
                 } else {
-                    plotCol.at(j).at(i)->Draw("Hist&sames");
+                    c1->cd(); pad_RT->cd(); plotCol.at(j).at(i)->Draw("Hist&sames"); leg1->AddEntry(plotCol.at(j).at(i), plotName.at(j).at(i), "l");
+                }
+                if ( i == chInput.at(j).size() - 1 ) {
+                    c1->cd(); pad_RT->cd(); leg1->Draw();
                 }
             }
 

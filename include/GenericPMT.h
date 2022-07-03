@@ -40,11 +40,16 @@ std::vector<std::vector<int>> plotColor {
 										};
 
 
-std::vector<TString> plotName = {
-                                "#font[42]{#scale[0.8]{Ext Trigg. 1}}",
-                                "#font[42]{#scale[0.8]{Module B - #color[634]{S ch}}}",
-                                "#font[42]{#scale[0.8]{Module B - #color[602]{C ch}}}",
-                                "#font[42]{#scale[0.8]{Ext Trigg. 2}}"
+std::vector<std::vector<TString>> plotName = {
+									{
+		                                "#font[42]{#scale[0.8]{Module B - #color[634]{S ch}}}",
+                                		"#font[42]{#scale[0.8]{Module B - #color[602]{C ch}}}",
+									},
+									{
+		                                "#font[42]{#scale[0.8]{Ext Trigg. 1}}",
+		                                "#font[42]{#scale[0.8]{Ext Trigg. 2}}",
+                                        "#font[42]{#scale[0.8]{Discriminator}}",
+		                            }
                                 };
 
 
