@@ -21,16 +21,15 @@ void pad_set(TPad* tPad) {
 
 void BaseIntegral_GenericPMT(std::string fileNum, std::string pedNum, enum runMode mode) {
 
-    TCanvas* c = new TCanvas("c", "c", 500, 500);
-    TCanvas* c1 = new TCanvas("c1", "c1", 500, 500);
+      TCanvas* c = new TCanvas("c", "c", 1000, 500);
 
-    c->cd();
-    TPad* pad_LT = new TPad("pad_LT","pad_LT", 0.01, 0.01, 0.99, 0.99 );
-    pad_set(pad_LT);
+      c->cd();
+      TPad* pad_LT = new TPad("pad_LT","pad_LT", 0.01, 0.01, 0.5, 0.99 );
+      pad_set(pad_LT);
 
-    c1->cd();
-    TPad* pad_RT = new TPad("pad_RT","pad_RT", 0.01, 0.01, 0.99, 0.99 );
-    pad_set(pad_RT);
+      c->cd();
+      TPad* pad_RT = new TPad("pad_RT","pad_RT", 0.5, 0.01, 0.99, 0.99 );
+      pad_set(pad_RT);
 
     FILE *fp;
     int file_size;
@@ -48,8 +47,8 @@ void BaseIntegral_GenericPMT(std::string fileNum, std::string pedNum, enum runMo
         for (int j = 0; j < NofDAQModule; j++) {
             std::ifstream in;
             int i_tmp; float ped_tmp;
-            in.open(BASE_DIR+SCENARIO+"/"+fileNum+"/Ped/Full/"+FILE_NAME+"_"+std::to_string(j+1)+"_"+std::string(pedNum)+".csv",std::ios::in);
-            std::cout << "[FULL] loading mid" << j+1 << " ped file : " << BASE_DIR+SCENARIO+"/"+fileNum+"/Ped/Full/"+FILE_NAME+"_"+std::to_string(j+1)+"_"+std::string(pedNum)+".csv" << std::endl;
+            in.open(BASE_DIR+SCENARIO+"/"+pedNum+"/Ped/Full/"+FILE_NAME+"_"+std::to_string(j+1)+"_"+std::string(pedNum)+".csv",std::ios::in);
+            std::cout << "[FULL] loading mid" << j+1 << " ped file : " << BASE_DIR+SCENARIO+"/"+pedNum+"/Ped/Full/"+FILE_NAME+"_"+std::to_string(j+1)+"_"+std::string(pedNum)+".csv" << std::endl;
 
             while (true) {
                 in >> i_tmp >> ped_tmp;
@@ -64,8 +63,8 @@ void BaseIntegral_GenericPMT(std::string fileNum, std::string pedNum, enum runMo
         for (int j = 0; j < NofDAQModule; j++) {
             std::ifstream in;
             int i_tmp; float ped_tmp;
-            in.open(BASE_DIR+SCENARIO+"/"+fileNum+"/Ped/Prompt/"+FILE_NAME+"_"+std::to_string(j+1)+"_"+std::string(pedNum)+".csv",std::ios::in);
-            std::cout << "[PROMPT] loading mid" << j << " ped file : " << BASE_DIR+SCENARIO+"/"+fileNum+"/Ped/Prompt/"+FILE_NAME+"_"+std::to_string(j+1)+"_"+std::string(pedNum)+".csv" << std::endl;
+            in.open(BASE_DIR+SCENARIO+"/"+pedNum+"/Ped/Prompt/"+FILE_NAME+"_"+std::to_string(j+1)+"_"+std::string(pedNum)+".csv",std::ios::in);
+            std::cout << "[PROMPT] loading mid" << j << " ped file : " << BASE_DIR+SCENARIO+"/"+pedNum+"/Ped/Prompt/"+FILE_NAME+"_"+std::to_string(j+1)+"_"+std::string(pedNum)+".csv" << std::endl;
 
             while (true) {
                 in >> i_tmp >> ped_tmp;
@@ -151,53 +150,33 @@ void BaseIntegral_GenericPMT(std::string fileNum, std::string pedNum, enum runMo
         }
         fclose(fp);
 
-        if ( j == 0 ) {
-            c->cd(); pad_LT->cd(); TLegend* leg1 = new TLegend(0.55,0.70,0.85,0.85); leg1->SetFillStyle(0); leg1->SetBorderSize(0); leg1->SetTextFont( 42 ); leg1->SetTextSize( 0.045 );
-            for (int i = 0; i < chInput.at(j).size(); i++) {
-                if ( i == 0 ) {
-                    c->cd(); pad_LT->cd(); plotCol.at(j).at(i)->Draw("Hist"); leg1->AddEntry(plotCol.at(j).at(i), plotName.at(j).at(i), "l");
-                } else {
-                    c->cd(); pad_LT->cd(); plotCol.at(j).at(i)->Draw("Hist&sames"); leg1->AddEntry(plotCol.at(j).at(i), plotName.at(j).at(i), "l");
-                }
-                if ( i == chInput.at(j).size() - 1 ) {
-                    c->cd(); pad_LT->cd(); leg1->Draw();
-                }
-            }
+        c->cd(); pad_LT->cd(); 
+        TLegend* leg1 = new TLegend(0.55,0.70,0.85,0.85); 
+        leg1->SetFillStyle(0); leg1->SetBorderSize(0); leg1->SetTextFont( 42 ); leg1->SetTextSize( 0.045 );
 
-            if ( mode == runMode::kFull ) {
-                c->SaveAs((TString)(BASE_DIR+SCENARIO+"/"+fileNum+"/Integral/FullPed_"+FILE_NAME+"_mid"+std::to_string(j+1)+"_IntegratedADC.png"));
-            }                       
-            if ( mode == runMode::kPrompt ) {
-                c->SaveAs((TString)(BASE_DIR+SCENARIO+"/"+fileNum+"/Integral/PromptPed_"+FILE_NAME+"_mid"+std::to_string(j+1)+"_IntegratedADC.png"));
-            }
-            if ( mode == runMode::kCoarse ) {
-                c->SaveAs((TString)(BASE_DIR+SCENARIO+"/"+fileNum+"/Integral/CoarsePed_"+FILE_NAME+"_mid"+std::to_string(j+1)+"_IntegratedADC.png"));
-            }
+        c->cd(); pad_RT->cd(); 
+        TLegend* leg2 = new TLegend(0.65,0.70,0.85,0.85); 
+        leg2->SetFillStyle(0); leg2->SetBorderSize(0); leg2->SetTextFont( 42 ); leg2->SetTextSize( 0.045 );
 
+        c->cd(); pad_LT->cd(); 
+        plotCol.at(j).at(1)->Draw("Hist");       leg1->AddEntry(plotCol.at(j).at(1), plotName.at(j).at(1), "l");
+        plotCol.at(j).at(2)->Draw("Hist&sames"); leg1->AddEntry(plotCol.at(j).at(2), plotName.at(j).at(2), "l");
+        leg1->Draw();
+
+        c->cd(); pad_RT->cd(); 
+        plotCol.at(j).at(0)->Draw("Hist");       leg2->AddEntry(plotCol.at(j).at(0), plotName.at(j).at(0), "l");  
+        plotCol.at(j).at(3)->Draw("Hist&sames"); leg2->AddEntry(plotCol.at(j).at(3), plotName.at(j).at(3), "l");
+        plotCol.at(j).at(4)->Draw("Hist&sames"); leg2->AddEntry(plotCol.at(j).at(4), plotName.at(j).at(4), "l");
+        leg2->Draw();
+
+        if ( mode == runMode::kFull ) {
+            c->SaveAs((TString)(BASE_DIR+SCENARIO+"/"+fileNum+"/Integral/FullPed_"+FILE_NAME+"_mid"+std::to_string(j+1)+"_IntegratedADC.png"));
+        }                       
+        if ( mode == runMode::kPrompt ) {
+            c->SaveAs((TString)(BASE_DIR+SCENARIO+"/"+fileNum+"/Integral/PromptPed_"+FILE_NAME+"_mid"+std::to_string(j+1)+"_IntegratedADC.png"));
         }
-
-        if ( j == 1 ) {
-            c1->cd(); pad_RT->cd(); TLegend* leg1 = new TLegend(0.55,0.70,0.85,0.85); leg1->SetFillStyle(0); leg1->SetBorderSize(0); leg1->SetTextFont( 42 ); leg1->SetTextSize( 0.045 );
-            for (int i = 0; i < chInput.at(j).size(); i++) {
-                if ( i == 0 ) {
-                    c1->cd(); pad_RT->cd(); plotCol.at(j).at(i)->Draw("Hist"); leg1->AddEntry(plotCol.at(j).at(i), plotName.at(j).at(i), "l");
-                } else {
-                    c1->cd(); pad_RT->cd(); plotCol.at(j).at(i)->Draw("Hist&sames"); leg1->AddEntry(plotCol.at(j).at(i), plotName.at(j).at(i), "l");
-                }
-                if ( i == chInput.at(j).size() - 1 ) {
-                    c1->cd(); pad_RT->cd(); leg1->Draw();
-                }
-            }
-
-            if ( mode == runMode::kFull ) {
-                c1->SaveAs((TString)(BASE_DIR+SCENARIO+"/"+fileNum+"/Integral/FullPed_"+FILE_NAME+"_mid"+std::to_string(j+1)+"_IntegratedADC.png"));
-            }                       
-            if ( mode == runMode::kPrompt ) {
-                c1->SaveAs((TString)(BASE_DIR+SCENARIO+"/"+fileNum+"/Integral/PromptPed_"+FILE_NAME+"_mid"+std::to_string(j+1)+"_IntegratedADC.png"));
-            }
-            if ( mode == runMode::kCoarse ) {
-                c1->SaveAs((TString)(BASE_DIR+SCENARIO+"/"+fileNum+"/Integral/CoarsePed_"+FILE_NAME+"_mid"+std::to_string(j+1)+"_IntegratedADC.png"));
-            }
+        if ( mode == runMode::kCoarse ) {
+            c->SaveAs((TString)(BASE_DIR+SCENARIO+"/"+fileNum+"/Integral/CoarsePed_"+FILE_NAME+"_mid"+std::to_string(j+1)+"_IntegratedADC.png"));
         }
     }
 }

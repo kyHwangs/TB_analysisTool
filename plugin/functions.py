@@ -84,7 +84,7 @@ def get_commands(arguments, type_dict):
 
     if (run_type == 'kPeak'):
         if(mud_type == 'kGenericPMT'):
-            macro_cmd = ".x ./src/BasePeak.cc(\"%s\", \"%s\", %s)" % (arguments.runNum, arguments.pedNum, ped_type)
+            macro_cmd = ".x ./src/BasePeak_GenericPMT.cc(\"%s\", \"%s\", %s)" % (arguments.runNum, arguments.pedNum, ped_type)
         # if(mud_type == 'kSiPM'):
         #     macro_cmd = ".x ./src/BasePeak.cc(\"%s\", \"%s\", %s)" % (arguments.runNum, arguments.pedNum, ped_type)
         # if(mud_type == 'kMCPPMT'):
@@ -92,7 +92,7 @@ def get_commands(arguments, type_dict):
 
     return config_cmd, macro_cmd
 
-def init_directories(baseDir, runNum) :
+def init_directories(baseDir, runNum, run_type) :
 
     dir_list = [
                 'Peak',

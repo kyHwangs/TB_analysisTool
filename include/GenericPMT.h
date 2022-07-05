@@ -22,9 +22,9 @@ enum runMode {
     kNoPed
 };
 
-std::string BASE_DIR = "/home/${USER}/TB_analysisTool/";
+std::string BASE_DIR = "/Users/khwang/scratch/TestBeam/github/220707/test/TB_analysisTool/";
 std::string SCENARIO = "result";
-std::string DATA_DIR = "/home/${USER}/TB_analysisTool/sampleData/";
+std::string DATA_DIR = "/Users/khwang/scratch/TestBeam/github/220707/test/TB_analysisTool/sampleData/";
 std::string FILE_NAME = "ele18MeV";
 
 int NofDAQModule = 1;

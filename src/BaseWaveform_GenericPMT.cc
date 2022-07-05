@@ -70,7 +70,7 @@ int BaseWaveform_GenericPMT(std::string fileNum)
 
       plotCol.at(j).push_back(
                               new TH1F((TString)("mid"+std::to_string(j+1)+" ch"+std::to_string(chInput.at(j).at(i))), 
-                                       (TString)(";ns;ADC"), 
+                                       (TString)(";#font[42]{ns};#font[42]{ADC}"), 
                                        1000, 0, 200
                                       )
                              );
@@ -150,7 +150,7 @@ int BaseWaveform_GenericPMT(std::string fileNum)
       leg1->SetFillStyle(0); leg1->SetBorderSize(0); leg1->SetTextFont( 42 ); leg1->SetTextSize( 0.045 );
 
       c->cd(); pad_RT->cd(); 
-      TLegend* leg2 = new TLegend(0.55,0.15,0.85,0.30); 
+      TLegend* leg2 = new TLegend(0.65,0.15,0.85,0.30); 
       leg2->SetFillStyle(0); leg2->SetBorderSize(0); leg2->SetTextFont( 42 ); leg2->SetTextSize( 0.045 );
 
       c->cd(); pad_LT->cd(); 

@@ -24,11 +24,14 @@ if args.debug :
 
 config_cmd, macro_cmd = get_commands(args, type_dict)
 
+
 if args.debug :
     print("Reading header :", args.config)
-    print("Executing macro :", macro_cmd[4:])
+    print("Executing macro :", macro_cmd[3:])
 
 ROOT.gInterpreter.ProcessLine(config_cmd) 
-init_directories(ROOT.BASE_DIR, args.runNum)           
+init_directories(ROOT.BASE_DIR, args.runNum, args.type)           
 ROOT.gInterpreter.ProcessLine(macro_cmd)
-input()
+
+if args.type == "kIntegral" and args.type == "kPeak" :
+    input()
