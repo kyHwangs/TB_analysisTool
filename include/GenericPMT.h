@@ -22,35 +22,31 @@ enum runMode {
     kNoPed
 };
 
-std::string BASE_DIR = "/Users/swkim/DRC/0703_SV_develop/DRC_TB_analysisTool/";
-std::string SCENARIO = "GenericPMT";
-std::string DATA_DIR = "/Users/swkim/DRC/SV_TB_0604/data_220604/test_data/";
-std::string FILE_NAME = "elec_07_03";
+std::string BASE_DIR = "/home/${USER}/TB_analysisTool/";
+std::string SCENARIO = "result";
+std::string DATA_DIR = "/home/${USER}/TB_analysisTool/sampleData/";
+std::string FILE_NAME = "ele18MeV";
 
-int NofDAQModule = 2;
+int NofDAQModule = 1;
 
 std::vector<std::vector<int>> chInput   {
-											{0, 8},
-											{0, 8, 16}
+											{0, 4, 10, 14, 16}
 									    };
 
 std::vector<std::vector<int>> plotColor {
-											{632, 600},
-											{1, 1, 432}
+											{1, 634, 602, 1, 433}
 										};
 
 
 std::vector<std::vector<TString>> plotName = {
-									{
-		                                "#font[42]{#scale[0.8]{Module B - #color[634]{S ch}}}",
-                                		"#font[42]{#scale[0.8]{Module B - #color[602]{C ch}}}",
-									},
-									{
-		                                "#font[42]{#scale[0.8]{Ext Trigg. 1}}",
-		                                "#font[42]{#scale[0.8]{Ext Trigg. 2}}",
-                                        "#font[42]{#scale[0.8]{Discriminator}}",
-		                            }
-                                };
+											 	{
+					                                "#font[42]{#scale[0.8]{Ext Trigg. 1}}",
+					                                "#font[42]{#scale[0.8]{Module B - #color[634]{S ch}}}",
+					                                "#font[42]{#scale[0.8]{Module B - #color[602]{C ch}}}",
+					                                "#font[42]{#scale[0.8]{Ext Trigg. 2}}",
+					                                "#font[42]{#scale[0.8]{Veto}}"
+                                				}
+                                			};
 
 
 

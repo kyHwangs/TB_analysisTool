@@ -40,16 +40,15 @@ int BaseWaveform_GenericPMT(std::string fileNum)
   std::vector<double> ddTime;
   std::vector<double> xCor;
 
-  TCanvas* c = new TCanvas("c", "c", 500, 500);
-  TCanvas* c1 = new TCanvas("c1", "c1", 500, 500);
+  TCanvas* c = new TCanvas("c", "c", 1000, 500);
   TCanvas* c2 = new TCanvas("c2", "c2", 1000, 500);
 
   c->cd();
-  TPad* pad_LT = new TPad("pad_LT","pad_LT", 0.01, 0.01, 0.99, 0.99 );
+  TPad* pad_LT = new TPad("pad_LT","pad_LT", 0.01, 0.01, 0.5, 0.99 );
   pad_set(pad_LT);
 
-  c1->cd();
-  TPad* pad_RT = new TPad("pad_RT","pad_RT", 0.01, 0.01, 0.99, 0.99 );
+  c->cd();
+  TPad* pad_RT = new TPad("pad_RT","pad_RT", 0.5, 0.01, 0.99, 0.99 );
   pad_set(pad_RT);
 
 
@@ -87,14 +86,15 @@ int BaseWaveform_GenericPMT(std::string fileNum)
   for (int j = 0; j < NofDAQModule; j++) { 
     std::cout <<  "[INT] loading data file : "<< DATA_DIR+FILE_NAME+"_"+std::to_string(j+1)+"_"+fileNum+".dat" << std::endl;
 
-    fp = fopen((DATA_DIR+FILE_NAME+"_"+std::to_string(j+1)+"_"+fileNum+".dat").c_str(), "rb");
-    fseek(fp, 0L, SEEK_END);
-    file_size = ftell(fp);
-    fclose(fp);
-    nevt = file_size / 65536;
+    // fp = fopen((DATA_DIR+FILE_NAME+"_"+std::to_string(j+1)+"_"+fileNum+".dat").c_str(), "rb");
+    // fseek(fp, 0L, SEEK_END);
+    // file_size = ftell(fp);
+    // fclose(fp);
+    // nevt = file_size / 65536;
 
     fp = fopen((DATA_DIR+FILE_NAME+"_"+std::to_string(j+1)+"_"+fileNum+".dat").c_str(), "rb");
-    for (int evt = 0; evt < nevt; evt++) {
+    // for (int evt = 0; evt < nevt; evt++) {
+    for (int evt = 0; evt < 100; evt++) {
       for ( int xx = 0; xx < plotCol.at(j).size(); xx++ ) plotCol.at(j).at(xx)->Reset();
 
       fread(data, 1, 64, fp);
@@ -144,36 +144,28 @@ int BaseWaveform_GenericPMT(std::string fileNum)
         }
       }
 
-      if ( j == 0 ) {
-        c->cd(); pad_LT->cd(); TLegend* leg1 = new TLegend(0.55,0.15,0.85,0.30); leg1->SetFillStyle(0); leg1->SetBorderSize(0); leg1->SetTextFont( 42 ); leg1->SetTextSize( 0.045 );
-        for (int i = 0; i < chInput.at(j).size(); i++) {
-          if ( i == 0 ) {
-            c->cd(); pad_LT->cd(); plotCol.at(j).at(i     )->Draw("Hist"); leg1->AddEntry(plotCol.at(j).at(i), plotName.at(j).at(i), "l");
-          } else {
-            c->cd(); pad_LT->cd(); plotCol.at(j).at(i     )->Draw("Hist&sames"); leg1->AddEntry(plotCol.at(j).at(i), plotName.at(j).at(i), "l");
-          }
-          if ( i == chInput.at(j).size() - 1 ) {
-            c->cd(); pad_LT->cd(); leg1->Draw();
-          }
-        }
-        c->SaveAs((TString)(BASE_DIR+SCENARIO+"/"+fileNum+"/Waveform/"+std::to_string(j+1)+"/"+FILE_NAME+"_mid"+std::to_string(j+1)+"_"+std::to_string(evt)+"evt_waveform.png"));
-      }
+      
+      c->cd(); pad_LT->cd(); 
+      TLegend* leg1 = new TLegend(0.55,0.15,0.85,0.30); 
+      leg1->SetFillStyle(0); leg1->SetBorderSize(0); leg1->SetTextFont( 42 ); leg1->SetTextSize( 0.045 );
 
-      if ( j == 1 ) {
-        c1->cd(); pad_RT->cd(); TLegend* leg1 = new TLegend(0.55,0.15,0.85,0.30); leg1->SetFillStyle(0); leg1->SetBorderSize(0); leg1->SetTextFont( 42 ); leg1->SetTextSize( 0.045 );
-        for (int i = 0; i < chInput.at(j).size(); i++) {
-          c1->cd();
-          if ( i == 0 ) {
-            c1->cd(); pad_RT->cd(); plotCol.at(j).at(i)->Draw("Hist"); leg1->AddEntry(plotCol.at(j).at(i), plotName.at(j).at(i), "l");
-          } else {
-            c1->cd(); pad_RT->cd(); plotCol.at(j).at(i)->Draw("Hist&sames"); leg1->AddEntry(plotCol.at(j).at(i), plotName.at(j).at(i), "l");
-          }
-          if ( i == chInput.at(j).size() - 1 ) {
-            c1->cd(); pad_RT->cd(); leg1->Draw();
-          }
-        }
-        c1->SaveAs((TString)(BASE_DIR+SCENARIO+"/"+fileNum+"/Waveform/"+std::to_string(j+1)+"/"+FILE_NAME+"_mid"+std::to_string(j+1)+"_"+std::to_string(evt)+"evt_waveform.png"));
-      }
+      c->cd(); pad_RT->cd(); 
+      TLegend* leg2 = new TLegend(0.55,0.15,0.85,0.30); 
+      leg2->SetFillStyle(0); leg2->SetBorderSize(0); leg2->SetTextFont( 42 ); leg2->SetTextSize( 0.045 );
+
+      c->cd(); pad_LT->cd(); 
+      plotCol.at(j).at(1)->Draw("Hist");       leg1->AddEntry(plotCol.at(j).at(1), plotName.at(j).at(1), "l");
+      plotCol.at(j).at(2)->Draw("Hist&sames"); leg1->AddEntry(plotCol.at(j).at(2), plotName.at(j).at(2), "l");
+  
+      leg1->Draw();
+
+      c->cd(); pad_RT->cd(); 
+      plotCol.at(j).at(0)->Draw("Hist");       leg2->AddEntry(plotCol.at(j).at(0), plotName.at(j).at(0), "l");  
+      plotCol.at(j).at(3)->Draw("Hist&sames"); leg2->AddEntry(plotCol.at(j).at(3), plotName.at(j).at(3), "l");
+      plotCol.at(j).at(4)->Draw("Hist&sames"); leg2->AddEntry(plotCol.at(j).at(4), plotName.at(j).at(4), "l");
+      leg2->Draw();
+
+      c->SaveAs((TString)(BASE_DIR+SCENARIO+"/"+fileNum+"/Waveform/"+std::to_string(j+1)+"/"+FILE_NAME+"_mid"+std::to_string(j+1)+"_"+std::to_string(evt)+"evt_waveform.png"));
     }
     fclose(fp);
   }
