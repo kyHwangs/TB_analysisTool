@@ -29,7 +29,7 @@ if args.debug :
     print("Executing macro :", macro_cmd[3:])
 
 ROOT.gInterpreter.ProcessLine(config_cmd) 
-init_directories(ROOT.BASE_DIR, args.runNum, args.type)           
+init_directories(ROOT.BASE_DIR, args.runNum)           
 ROOT.gInterpreter.ProcessLine(macro_cmd)
 
 if args.type == "kIntegral" and args.type == "kPeak" :

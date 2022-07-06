@@ -92,46 +92,29 @@ def get_commands(arguments, type_dict):
 
     return config_cmd, macro_cmd
 
-def init_directories(baseDir, runNum, run_type) :
+def init_directories(baseDir, runNum) :
 
     dir_list = [
                 'Peak',
                 'Integral',
                 'Timing',
-                # 'Ped/Prompt',
-                # 'Ped/Full',
-                'Waveform'
-               ]
-
- 
-    ped_list = [
                 'Ped/Prompt',
-                'Ped/Full'
+                'Ped/Full',
+                'Waveform'
                ]
 
     baseDir = os.path.join(baseDir, ROOT.SCENARIO, runNum)
     if not (os.path.exists(baseDir)) :
         os.makedirs(baseDir)
 
-        if not (run_type == 'kPed') :
+        for dirs in dir_list :
+            required_dir = os.path.join(baseDir, dirs)
+            os.makedirs(required_dir)
 
-            for dirs in dir_list :
-                required_dir = os.path.join(baseDir, dirs)
-                os.makedirs(required_dir)
-
-                if not (dirs == 'Timing' or dirs == 'Integral' or dirs == 'Peak') :
-
-                    for n, i in enumerate(ROOT.chInput) :
-                        modDir = os.path.join(required_dir, str(n+1))
-                        os.makedirs(modDir)
-
-        elif run_type == 'kPed' :
-
-            for dirs in ped_list :
-                required_dir = os.path.join(baseDir, dirs)
-                os.makedirs(required_dir)
+            if not (dirs == 'Timing' or dirs == 'Integral' or dirs == 'Peak') :
 
                 for n, i in enumerate(ROOT.chInput) :
                     modDir = os.path.join(required_dir, str(n+1))
                     os.makedirs(modDir)
+
 
