@@ -6,12 +6,11 @@ ROOT.PyConfig.ShutDown = False
 
 ## Using argument parser
 parser = argparse.ArgumentParser()
-parser.add_argument('--config', '-c', action='store', type=str, default='config.h', help='Path of header file with configs') # == location.h for Severance TB version code
-parser.add_argument('--runNum', '-r', action='store', type=str, required=True, help='Enter Run number of data') # == fileNum
-parser.add_argument('--pedNum', '-pn', action='store', type=str, default='-1', help='Enter pedestal file number')
-parser.add_argument('--type', '-t', action='store', type=str, required=True, help='Enter which code to run >> 0 : integral / 1 : peak / 2 : waveform / 3 : calcPed') # == enum discriminator
-parser.add_argument('--pedType', '-pt', action='store', type=str, default='-1', help='Enter type of pedestal >> 0 : full / 1 : prompt / 2 : noPed') # == enum runMode
-# parser.add_argument('--module', '-m', action='store', type=str, required=True, help='Module type selector')
+parser.add_argument('--config', '-c', action='store', type=str, default='config.h', help='Path of header file with configs')
+parser.add_argument('--runNum', '-r', action='store', type=str, required=True, help='Run number of data')
+parser.add_argument('--pedNum', '-pn', action='store', type=str, default='-1', help='Pedestal file number')
+parser.add_argument('--type', '-t', action='store', type=str, required=True, help='[kPed, kWaveform, kIntegral, kPeak]')
+parser.add_argument('--pedType', '-pt', action='store', type=str, default='-1', help='[kFull, kPrompt, kCoarse]')
 parser.add_argument('--debug', '-d', action='store_true', default=False, help='Activate debug mode, will print out debug info')
 args = parser.parse_args()
 
