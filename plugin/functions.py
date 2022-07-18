@@ -110,11 +110,6 @@ def get_commands(arguments, type_dict):
 def init_directories(baseDir, runNum) :
 
     dir_list = [
-                'Peak',
-                'Integral',
-                'Timing',
-                'Ped/Prompt',
-                'Ped/Full',
                 'Waveform'
                ]
 
@@ -126,15 +121,8 @@ def init_directories(baseDir, runNum) :
             required_dir = os.path.join(baseDir, dirs)
             os.makedirs(required_dir)
 
-            if not (dirs == 'Timing' or dirs == 'Integral' or dirs == 'Peak') :
-
-                for n, i in enumerate(ROOT.chInput) :
-                    modDir = os.path.join(required_dir, str(n+1))
+                for n in range(6, 16)
+                    modDir = os.path.join(required_dir, str(n))
                     os.makedirs(modDir)
-
-                    # if (dirs == 'Waveform') :
-                    #     for j in i :
-                    #         chDir = os.path.join(modDir, str(j))
-                    #         os.makedirs(chDir)
 
 

@@ -27,7 +27,7 @@ std::string SCENARIO = "SiPM_32ch";
 std::string DATA_DIR = "/Users/swkim/DRC/SV_TB_0604/data_220604/test_data/";
 std::string FILE_NAME = "elec_06_04";
 
-int NofDAQModule = 2;
+int NofDAQModule = 10;
 
 std::vector<std::vector<int>> chInput   {
 											{0 , 1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 , 10, 11, 12, 13, 14, 15,
@@ -39,8 +39,7 @@ std::vector<std::vector<int>> plotColor {
 											{1, 600, 632, 416, 800, 416, 616, 432, 
 										     1, 600, 632, 416, 800, 416, 616, 432,
 										     1, 600, 632, 416, 800, 416, 616, 432,
-										     1, 600, 632, 416, 800, 416, 616, 432},
-											{1, 1, 432}
+										     1, 600, 632, 416, 800, 416, 616, 432}
 										};
 
 std::vector<TString> plotName = {
