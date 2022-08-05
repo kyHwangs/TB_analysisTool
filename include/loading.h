@@ -3,12 +3,13 @@
 #include <filesystem>
 #include <unistd.h>
 #include <vector>
-
 #include <cstdio>
 #include <algorithm>
 #include <numeric>
 #include <TPad.h>
 #include <utility>
+#include <map>
+#include <iostream>
 
 // NOTE : update enum!
 //			1. monit
@@ -34,6 +35,37 @@
 //     kNoPed
 // };
 
+typedef struct sipmInfo {
+
+	int plateN;
+	int fiberN;
+} sipmInfo;
+
+typedef struct moduleinfo {
+
+	int Nmodule;
+	int Ntower;
+	int isCeren;
+	int isSiPM;
+	sipmInfo SiPM;
+} moduleinfo;
+
+int mid, ch, module, tower, isCeren, isSiPM, plate, fiber;
+std::map<std::pair<int, int>, moduleinfo> mapping;
+
+in.open("./include/mapping_data_MCPPMT_positiveSignal.csv",std::ios::in);
+while (true) {
+	in >> mid >> ch >> module >> tower >> isCeren >> isSiPM >> plate >> fiber;
+	if (!in.good()) break;
+
+	sipmInfo tmpSiPM;
+	if ( isSiPM == 0 ) tmpSiPM = {0, 0};
+	if ( isSiPM == 1 ) tmpSiPM = {plate, fiber};
+	moduleinfo tmpModule = {module, tower, isCeren, isSiPM, tmpSiPM};
+	mapping.insert(std::make_pair(std::make_pair(mid, ch), tmpModule));
+}
+in.close();
+
 typedef struct DataStruct {
 	std::vector< std::vector<int> > waveform;
 } DataStruct; 
@@ -42,6 +74,9 @@ std::string BASE_DIR  = "/Users/khwang/scratch/TestBeam/";
 std::string RUNNUMBER = "1";
 std::string DATA_DIR  = "/Users/khwang/scratch/TestBeam/sampleData/";
 std::string FILE_NAME = "run_1_wave";
+
+double HeatADCmax = 3000.;
+double DistADCmax = 3000.;
 
 std::vector<std::string> LoadedFiles;
 
